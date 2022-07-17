@@ -32,7 +32,7 @@ export const assertIsNonEmptyString = (str: string, varName: string) => {
 
 export const assertIsISOString = (str: string, fieldName?: string) => {
   const fieldNameText = fieldName ? `Field name ${fieldName}` : "";
-  if(isNaN(Date.parse(str))) {
+  if (isNaN(Date.parse(str))) {
     throw new Error(`${fieldNameText} has invalid value. ${str} is not a valid ISO timestamp. The ISO format is: YYYY-MM-DDTHH:mmZ`)
   }
 }
@@ -93,9 +93,9 @@ export const createBlockEvent: CreateBlockEvent = (block: JsonRpcBlock, networkI
 // creates a Forta TransactionEvent from a json-rpc transaction receipt and block object
 export type CreateTransactionEvent = (transaction: JsonRpcTransaction, block: JsonRpcBlock, networkId: number, traces: Trace[], logs: JsonRpcLog[]) => TransactionEvent
 export const createTransactionEvent: CreateTransactionEvent = (
-  transaction: JsonRpcTransaction, 
-  block: JsonRpcBlock, 
-  networkId: number, 
+  transaction: JsonRpcTransaction,
+  block: JsonRpcBlock,
+  networkId: number,
   traces: Trace[] = [],
   logs: JsonRpcLog[] = []
 ) => {
@@ -202,26 +202,26 @@ export interface BlockchainNetworkConfig {
 
 
 export const getBlockChainNetworkConfig = (chainId: number): BlockchainNetworkConfig => {
-  switch(chainId) {
-    case(1): {
+  switch (chainId) {
+    case (1): {
       return SUPPORTED_NETWORKS['ethereum']
     }
-    case(137): {
+    case (137): {
       return SUPPORTED_NETWORKS['polygon']
     }
-    case(56): {
+    case (56): {
       return SUPPORTED_NETWORKS['binance_smart_chain']
     }
-    case(43114): {
+    case (43114): {
       return SUPPORTED_NETWORKS['avalanche']
     }
-    case(42161): {
+    case (42161): {
       return SUPPORTED_NETWORKS['arbitrum']
     }
-    case(10): {
+    case (10): {
       return SUPPORTED_NETWORKS['optimism']
     }
-    case(250): {
+    case (250): {
       return SUPPORTED_NETWORKS['fantom']
     }
     default:
@@ -232,7 +232,7 @@ export const getBlockChainNetworkConfig = (chainId: number): BlockchainNetworkCo
   }
 }
 
-const SUPPORTED_NETWORKS: {[key in NetworkName]: BlockchainNetworkConfig} = {
+const SUPPORTED_NETWORKS: { [key in NetworkName]: BlockchainNetworkConfig } = {
   "ethereum": {
     chainId: 1,
     blockTimeInSeconds: DEFAULTS_BLOCK_TIME_IN_SECONDS

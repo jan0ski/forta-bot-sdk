@@ -1,9 +1,8 @@
 import { join } from 'path';
-import { assertIsNonEmptyString } from '../../../../sdk/utils';
+import { assertExists, assertIsNonEmptyString } from './utils';
 import { loadPackageDefinition, Server, ServerCredentials } from '@grpc/grpc-js';
 import { loadSync } from '@grpc/proto-loader';
-import { assertExists } from '../../../utils';
-import AgentController from './agent.controller';
+import AgentController from './server/agent.controller';
 
 // runs the production grpc server to listen for requests from scanner node
 export type RunProdServer = () => Promise<void>
@@ -27,7 +26,7 @@ export default function provideRunProdServer(
       oneofs: true
     });
     const agentProto = loadPackageDefinition(packageDefinition) as any;
-  
+
     var server = new Server();
     server.addService(agentProto.network.forta.Agent.service, agentController as any);
     server.bindAsync(`0.0.0.0:${port}`, ServerCredentials.createInsecure(), () => {

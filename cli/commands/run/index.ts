@@ -8,7 +8,7 @@ import { RunBlockRange } from './run.block.range';
 import { RunFile } from './run.file';
 import { RunLive } from './run.live';
 import { RunTransaction } from './run.transaction';
-import { RunProdServer } from './server';
+import { RunProdServer } from '../../../sdk/server';
 
 export default function provideRun(
   container: AwilixContainer,
@@ -29,7 +29,7 @@ export default function provideRun(
 
     const network = await ethersProvider.getNetwork();
 
-    if(!network || !chainIds.includes(network.chainId)) console.warn(`Warning: Detected chainId mismatch between ${jsonRpcUrl} [chainId: ${network.chainId}] and package.json [chainIds: ${chainIds}]. \n`)
+    if (!network || !chainIds.includes(network.chainId)) console.warn(`Warning: Detected chainId mismatch between ${jsonRpcUrl} [chainId: ${network.chainId}] and package.json [chainIds: ${chainIds}]. \n`)
 
     // we manually inject the run functions here (instead of through the provide function above) so that
     // we get RUNTIME errors if certain configuration is missing for that run function e.g. jsonRpcUrl

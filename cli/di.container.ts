@@ -15,13 +15,13 @@ import providePush from './commands/push'
 import provideDisable from './commands/disable'
 import provideEnable from './commands/enable'
 import provideKeyfile from './commands/keyfile'
-import AgentController from "./commands/run/server/agent.controller"
+import AgentController from "../sdk/server/agent.controller"
 import { provideRunTransaction } from "./commands/run/run.transaction"
 import { provideRunBlock } from "./commands/run/run.block"
 import { provideRunBlockRange } from "./commands/run/run.block.range"
 import { provideRunFile } from "./commands/run/run.file"
 import { provideRunLive } from "./commands/run/run.live"
-import provideRunServer from "./commands/run/server"
+import provideRunServer from "../sdk/server"
 import provideUploadImage from './commands/publish/upload.image'
 import provideUploadManifest from './commands/publish/upload.manifest'
 import providePushToRegistry from './commands/publish/push.to.registry'
@@ -134,7 +134,7 @@ export default function configureContainer(args: any = {}) {
       if (!chainIds || !chainIds.length) {
         throw new Error("please specify chainIds array in package.json for where this agent should deploy e.g. [1] = Ethereum mainnet")
       }
-      return chainIds.sort((a: number, b: number) => a-b)// sort by ascending integers
+      return chainIds.sort((a: number, b: number) => a - b)// sort by ascending integers
     }).singleton(),
     version: asFunction((packageJson: any) => packageJson.version),
     documentation: asFunction((contextPath: string) => { return join(contextPath, 'README.md') }).singleton(),
@@ -239,7 +239,7 @@ export default function configureContainer(args: any = {}) {
       }
       return jsonRpcUrl
     }),
-    ethersProvider: asFunction((jsonRpcUrl: string) =>  new ethers.providers.JsonRpcProvider(jsonRpcUrl)).singleton(),
+    ethersProvider: asFunction((jsonRpcUrl: string) => new ethers.providers.JsonRpcProvider(jsonRpcUrl)).singleton(),
     ethersAgentRegistryProvider: asFunction((agentRegistryJsonRpcUrl: string) => new ethers.providers.JsonRpcProvider(agentRegistryJsonRpcUrl)).singleton(),
 
     ipfsGatewayUrl: asFunction((fortaConfig: FortaConfig) => {

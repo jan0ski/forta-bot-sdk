@@ -1,4 +1,4 @@
-import { GetAgentHandlers } from "../../../utils/get.agent.handlers";
+import { GetAgentHandlers } from "../../sdk/utils/get.agent.handlers";
 
 export = AgentController
 

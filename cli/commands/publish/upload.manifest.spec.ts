@@ -1,5 +1,5 @@
 import { ethers, Wallet } from "ethers"
-import { keccak256 } from "../../utils"
+import { keccak256 } from "../../../sdk/utils"
 import provideUploadManifest, { UploadManifest } from "./upload.manifest"
 
 describe("uploadManifest", () => {
@@ -49,7 +49,7 @@ describe("uploadManifest", () => {
 
   it("throws error if documentation file is empty", async () => {
     mockFilesystem.existsSync.mockReturnValueOnce(true)
-    mockFilesystem.statSync.mockReturnValueOnce({size: 0})
+    mockFilesystem.statSync.mockReturnValueOnce({ size: 0 })
 
     try {
       await uploadManifest(mockImageRef, mockPrivateKey)
@@ -67,7 +67,7 @@ describe("uploadManifest", () => {
     const systemTime = new Date()
     jest.useFakeTimers('modern').setSystemTime(systemTime)
     mockFilesystem.existsSync.mockReturnValueOnce(true)
-    mockFilesystem.statSync.mockReturnValueOnce({size: 1})
+    mockFilesystem.statSync.mockReturnValueOnce({ size: 1 })
     const mockDocumentationFile = JSON.stringify({ some: 'documentation' })
     mockFilesystem.readFileSync.mockReturnValueOnce(mockDocumentationFile)
     const mockDocumentationRef = "docRef"
@@ -100,7 +100,7 @@ describe("uploadManifest", () => {
     expect(mockFilesystem.readFileSync).toHaveBeenCalledWith(mockDocumentation, 'utf8')
     expect(mockAddToIpfs).toHaveBeenCalledTimes(2)
     expect(mockAddToIpfs).toHaveBeenNthCalledWith(1, mockDocumentationFile)
-    const signingKey = new ethers.utils.SigningKey(mockPrivateKey)
+    const signingKey = new ethers.utils.SigningKey(mockPrivateKey)
     const signature = ethers.utils.joinSignature(signingKey.signDigest(keccak256(JSON.stringify(mockManifest))))
     expect(mockAddToIpfs).toHaveBeenNthCalledWith(2, JSON.stringify({ manifest: mockManifest, signature }))
     jest.useRealTimers()

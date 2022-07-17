@@ -43,7 +43,7 @@ export const getJsonRpcUrl = () => {
   if (process.env.JSON_RPC_HOST) {
     return `http://${process.env.JSON_RPC_HOST}${process.env.JSON_RPC_PORT ? `:${process.env.JSON_RPC_PORT}` : ''}`
   }
-  
+
   // else, use the rpc url from forta.config.json
   let { jsonRpcUrl } = getFortaConfig()
   if (!jsonRpcUrl) return "https://cloudflare-eth.com/"
@@ -119,6 +119,10 @@ export const createBlockEvent = ({
   return new BlockEvent(type, network, block)
 }
 
+export const assertExists = (obj: any, objName: string) => {
+  if (_.isNil(obj)) throw new Error(`${objName} is required`)
+}
+
 export const assertIsNonEmptyString = (str: string, varName: string) => {
   if (!_.isString(str) || str.length === 0) {
     throw new Error(`${varName} must be non-empty string`);
@@ -137,6 +141,10 @@ export const keccak256 = (str: string) => {
   return `0x${hash.digest('hex')}`
 }
 
+export const formatAddress = (address: string) => {
+  return _.isString(address) ? address.toLowerCase() : address
+}
+
 let IS_PRIVATE_FINDINGS = false
 export const setPrivateFindings = (isPrivate: boolean) => {
   IS_PRIVATE_FINDINGS = isPrivate
@@ -147,9 +155,9 @@ export const isPrivateFindings = () => {
 }
 
 export const getAlerts = async (query: AlertQueryOptions): Promise<AlertsResponse> => {
-  const response: RawGraphqlAlertResponse = await axios.post(FORTA_GRAPHQL_URL, getQueryFromAlertOptions(query), {headers: {"content-type": "application/json"}});
+  const response: RawGraphqlAlertResponse = await axios.post(FORTA_GRAPHQL_URL, getQueryFromAlertOptions(query), { headers: { "content-type": "application/json" } });
 
-  if(response.data && response.data.errors) throw Error(response.data.errors)
+  if (response.data && response.data.errors) throw Error(response.data.errors)
 
   return response.data.data.alerts
 }

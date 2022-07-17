@@ -2,8 +2,8 @@ const {
   BlockEvent,
   TransactionEvent,
   isPrivateFindings,
-} = require("../../../../sdk");
-const { assertExists, formatAddress } = require("../../../utils");
+} = require("..");
+const { assertExists, formatAddress } = require("../utils");
 
 module.exports = class AgentController {
   constructor(getAgentHandlers) {
@@ -27,8 +27,7 @@ module.exports = class AgentController {
         findings.push(...(await this.handleBlock(blockEvent)));
       } catch (e) {
         console.log(
-          `${new Date().toISOString()}    evaluateBlock ${
-            call.request.event.blockHash
+          `${new Date().toISOString()}    evaluateBlock ${call.request.event.blockHash
           }`
         );
         console.log(e);
@@ -58,8 +57,7 @@ module.exports = class AgentController {
         findings.push(...(await this.handleTransaction(txEvent)));
       } catch (e) {
         console.log(
-          `${new Date().toISOString()}    evaluateTx ${
-            call.request.event.transaction.hash
+          `${new Date().toISOString()}    evaluateTx ${call.request.event.transaction.hash
           }`
         );
         console.log(e);
@@ -158,32 +156,32 @@ module.exports = class AgentController {
     const traces = !trcs
       ? []
       : trcs.map((trace) => ({
-          action: {
-            callType: trace.action.callType,
-            to: formatAddress(trace.action.to),
-            input: trace.action.input,
-            from: formatAddress(trace.action.from),
-            value: trace.action.value,
-            init: trace.action.init,
-            address: formatAddress(trace.action.address),
-            balance: trace.action.balance,
-            refundAddress: formatAddress(trace.action.refundAddress),
-          },
-          blockHash: trace.blockHash,
-          blockNumber: trace.blockNumber,
-          result: {
-            gasUsed: trace.result?.gasUsed,
-            address: trace.result?.address,
-            code: trace.result?.code,
-            output: trace.result?.output,
-          },
-          subtraces: trace.subtraces,
-          traceAddress: trace.traceAddress,
-          transactionHash: trace.transactionHash,
-          transactionPosition: trace.transactionPosition,
-          type: trace.type,
-          error: trace.error,
-        }));
+        action: {
+          callType: trace.action.callType,
+          to: formatAddress(trace.action.to),
+          input: trace.action.input,
+          from: formatAddress(trace.action.from),
+          value: trace.action.value,
+          init: trace.action.init,
+          address: formatAddress(trace.action.address),
+          balance: trace.action.balance,
+          refundAddress: formatAddress(trace.action.refundAddress),
+        },
+        blockHash: trace.blockHash,
+        blockNumber: trace.blockNumber,
+        result: {
+          gasUsed: trace.result?.gasUsed,
+          address: trace.result?.address,
+          code: trace.result?.code,
+          output: trace.result?.output,
+        },
+        subtraces: trace.subtraces,
+        traceAddress: trace.traceAddress,
+        transactionHash: trace.transactionHash,
+        transactionPosition: trace.transactionPosition,
+        type: trace.type,
+        error: trace.error,
+      }));
 
     const blok = {
       hash: block.blockHash,

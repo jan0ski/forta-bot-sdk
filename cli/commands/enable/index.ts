@@ -1,6 +1,6 @@
 import { Wallet } from "ethers"
 import { CommandHandler } from "../.."
-import { assertExists, assertIsNonEmptyString } from "../../utils"
+import { assertExists, assertIsNonEmptyString } from "../../../sdk/utils"
 import { AppendToFile } from "../../utils/append.to.file"
 import AgentRegistry from "../../contracts/agent.registry"
 import { GetCredentials } from "../../utils/get.credentials"

@@ -1,5 +1,5 @@
-import { BlockEvent, EventType, Network, TransactionEvent } from "../../../../sdk"
-import { formatAddress } from "../../../utils"
+import { BlockEvent, EventType, Network, TransactionEvent } from ".."
+import { formatAddress } from "../utils"
 import AgentController from "./agent.controller"
 
 describe("AgentController", () => {
@@ -140,7 +140,7 @@ describe("AgentController", () => {
     it("should invoke getAgentHandlers", () => {
       mockGetAgentHandlers.mockReturnValueOnce({})
       new AgentController(mockGetAgentHandlers)
-  
+
       expect(mockGetAgentHandlers).toHaveBeenCalledTimes(1)
     })
   })
@@ -164,7 +164,7 @@ describe("AgentController", () => {
       mockGetAgentHandlers.mockReturnValue({ handleBlock: mockHandleBlock })
       agentController = new AgentController(mockGetAgentHandlers)
       await agentController.initializeAgentHandlers()
-      const mockRequest = { 
+      const mockRequest = {
         request: {
           event: {
             blockHash: "0xabc"
@@ -186,7 +186,7 @@ describe("AgentController", () => {
     })
 
     it("invokes callback with success response and empty findings if no block handlers", async () => {
-      mockGetAgentHandlers.mockReturnValue({ })
+      mockGetAgentHandlers.mockReturnValue({})
       agentController = new AgentController(mockGetAgentHandlers)
 
       await agentController.EvaluateBlock({}, mockCallback)
@@ -260,7 +260,7 @@ describe("AgentController", () => {
       mockGetAgentHandlers.mockReturnValue({ handleTransaction: mockHandleTransaction })
       agentController = new AgentController(mockGetAgentHandlers)
       await agentController.initializeAgentHandlers()
-      const mockRequest = { 
+      const mockRequest = {
         request: {
           event: {
             transaction: {
@@ -284,7 +284,7 @@ describe("AgentController", () => {
     })
 
     it("invokes callback with success response and empty findings if no transaction handlers", async () => {
-      mockGetAgentHandlers.mockReturnValue({ })
+      mockGetAgentHandlers.mockReturnValue({})
       agentController = new AgentController(mockGetAgentHandlers)
 
       await agentController.EvaluateTx({}, mockCallback)
@@ -338,16 +338,16 @@ describe("AgentController", () => {
       })
       const grpcLogs = mockTxRequest.request.event.logs
       expect(txEvent.logs).toStrictEqual(grpcLogs.map(log => ({
-          address: formatAddress(log.address),
-          topics: log.topics,
-          data: log.data,
-          logIndex: parseInt(log.logIndex),
-          blockNumber: parseInt(log.blockNumber),
-          blockHash: log.blockHash,
-          transactionIndex: parseInt(log.transactionIndex),
-          transactionHash: log.transactionHash,
-          removed: log.removed,
-        }))
+        address: formatAddress(log.address),
+        topics: log.topics,
+        data: log.data,
+        logIndex: parseInt(log.logIndex),
+        blockNumber: parseInt(log.blockNumber),
+        blockHash: log.blockHash,
+        transactionIndex: parseInt(log.transactionIndex),
+        transactionHash: log.transactionHash,
+        removed: log.removed,
+      }))
       )
       const grpcTraces = mockTxRequest.request.event.traces
       expect(txEvent.traces).toStrictEqual(grpcTraces.map((trace) => ({
